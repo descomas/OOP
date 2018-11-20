@@ -22,6 +22,7 @@ public class PreTOC {
         System.out.println(Greg.getEntryFee());
         System.out.println(Greg.toString());
         System.out.println(bob.toString());
+
     }
     
 }
