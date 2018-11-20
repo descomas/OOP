@@ -10,7 +10,6 @@ package pretoc;
  * @author Desiree
  */
 public class Dragon {
-    public class Wizard {
    
     private String uniqueName;
     private int entryFee;
@@ -18,7 +17,7 @@ public class Dragon {
     private boolean canTalk;
 
     
-    public Wizard(String uniqueName, boolean canTalk){
+    public Dragon(String uniqueName, boolean canTalk){
        this.uniqueName = uniqueName;
        this.canTalk = canTalk;
        this.skillLevel = 7;
@@ -51,5 +50,4 @@ public class Dragon {
                 "can talk: " + canTalk + "\n";
     }
     
-    }
 }
