@@ -11,7 +11,11 @@ import java.io.*;
 
 public class Tournament implements TOC 
 {
-    
+    private String playerName;
+    private int gulden;
+    ArrayList<Champion> reserve;
+    ArrayList<Champion> playerTeam;
+    ArrayList<Challenge> ChallengeList;
 
 //**************** TOC ************************** 
     /** Constructor requires the name of the player
@@ -19,6 +23,13 @@ public class Tournament implements TOC
      */  
     public Tournament(String pl)
     {
+        
+        playerName = pl;
+        gulden = 1000;
+        reserve = new ArrayList<Champion>();
+        playerTeam = new ArrayList<Champion>();
+        ChallengeList = new ArrayList<Challenge>();
+        
     }
     
     /** Constructor requires the name of the player and the
@@ -186,7 +197,9 @@ public class Tournament implements TOC
      **/
     public String getChallenge(int num)
     {
-        return "";
+        String s = "";
+        
+        return s ;
     }
     
     /** Provides a String representation of all challenges 
@@ -194,7 +207,12 @@ public class Tournament implements TOC
      **/
     public String getAllChallenges()
     {
-        return "";
+        String s = "";
+         for (Challenge temp : ChallengeList) {
+             s = s + temp.toString() + "\n";
+             
+         }
+         return s;
     }
     
 
