@@ -14,11 +14,13 @@ public class Champion {
     private String uniqueName;
     private int entryFee;
     private int skillLevel;
+    private ChampionState state;
     
-    public Champion(String name, int fee, int level){
+    public Champion(String name, int fee, int level, ChampionState sState){
         uniqueName = name;
         entryFee = fee;
         skillLevel = level;
+        state = sState;
     }
     
     public String getName(){

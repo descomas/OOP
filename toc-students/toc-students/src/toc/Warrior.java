@@ -13,8 +13,8 @@ public class Warrior extends Champion{
     
     private String weapon;
     
-    public Warrior(String name, int fee, int level, String weapon){
-        super(name,fee,level);
+    public Warrior(String name, int fee, int level, ChampionState state, String weapon){
+        super(name,fee,level,state);
         this.weapon = weapon;
         super.setSkillLevel(fee/100);
     }
@@ -29,7 +29,8 @@ public class Warrior extends Champion{
     
     public String toString(){
         return super.toString() +
-                "Weapon: " + weapon;
+                "Weapon: " + weapon + "\n" +
+                "--------------------------\n";
     }
     
 }

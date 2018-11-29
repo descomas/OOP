@@ -12,13 +12,14 @@ package toc;
 public class Challenge {
     
     private int uniqueNumber;
-   // private String Type;
+    private ChallengeType type;
     private String Enemy;
     private int skillRequired;
     private int Reward;
     
-    public Challenge (int uniqueNumber, String Enemy, int skillRequired, int Reward ) {
+    public Challenge (int uniqueNumber, ChallengeType type, String Enemy, int skillRequired, int Reward ) {
         this.uniqueNumber = uniqueNumber;
+        this.type = type;
         this.Enemy = Enemy;
         this.skillRequired = skillRequired;
         this.Reward = Reward;

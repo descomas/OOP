@@ -1,6 +1,7 @@
 package toc;
 import java.util.*;
 import java.io.*;
+import java.util.ArrayList;
 /**
  * This class implements the behaviour expected from the WAM
  * system as required for 6COM1037 - Oct 2018
@@ -10,26 +11,28 @@ import java.io.*;
  */
 
 public class Tournament implements TOC 
-{
+{   
     private String playerName;
-    private int gulden;
+    private int gulden; //money 
     ArrayList<Champion> reserve;
     ArrayList<Champion> playerTeam;
-    ArrayList<Challenge> ChallengeList;
+    ArrayList<Challenge> challengeList;
+   
 
 //**************** TOC ************************** 
     /** Constructor requires the name of the player
      * @param player the name of the player
      */  
-    public Tournament(String pl)
-    {
-        
+    public Tournament(String pl){
         playerName = pl;
         gulden = 1000;
         reserve = new ArrayList<Champion>();
         playerTeam = new ArrayList<Champion>();
-        ChallengeList = new ArrayList<Challenge>();
+        challengeList = new ArrayList<Challenge>();
+        //setupChampions();
+        setupChallenges();
         
+    
     }
     
     /** Constructor requires the name of the player and the
@@ -37,13 +40,30 @@ public class Tournament implements TOC
      * @param player the name of the player
      * @param filename name of file storing challenges
      */  
+    
+    // Testing purposes ---------------------------------
+    
+    public void addChampion(Champion newChampion){
+        reserve.add(newChampion);
+    }
+    
+    public void addChallenge(Challenge newChallenge){
+        challengeList.add(newChallenge);
+    }
+    
+    
+    //---------------------------------------------------
+    
+    
+    
+    
     public Tournament(String pl, String filename)  //Task 3
     {
     }
     
     
     /**Returns a String representation of the state of the game,
-     * including the name of the player, state of the treasury,
+     * including the name of the player x, state of the treasury x,
      * whether defeated or not, and the champions currently in the 
      * team,(or, "No champions" if team is empty)
      * @return a String representation of the state of the game,
@@ -54,7 +74,8 @@ public class Tournament implements TOC
     public String toString()
     {
        
-        return "";
+        return "Player Name: " + playerName + "\n" +
+                "Current Gulden" + gulden + "\n";
     }
     
     
@@ -80,17 +101,24 @@ public class Tournament implements TOC
     /**Returns a String representation of all champions in the reserves
      * @return a String representation of all champions in the reserves
      **/
-    public String getReserve()
-    {    
-        return "";
+    public String getReserve(){
+        String s = "";
+        for(Champion temp: reserve){
+            s += temp.toString();
+        }
+        return s;
     }
     
     /** Returns details of champion in reserves with the given name
      * @return details of champion in reserves with the given name
      **/
-    public String findChampionInReserve(String nme)
-    {
-         return "";
+    public String findChampionInReserve(String nme){
+        for(Champion temp: reserve){
+            if(temp.getName().equals(nme))
+                return temp.toString();
+        }
+        return "Not found";
+
     }
     
     
@@ -197,33 +225,54 @@ public class Tournament implements TOC
      **/
     public String getChallenge(int num)
     {
-        String s = "";
-        
-        return s ;
+        return "";
     }
     
     /** Provides a String representation of all challenges 
      * @return returns a String representation of all challenges
      **/
-    public String getAllChallenges()
-    {
+    public String getAllChallenges(){
         String s = "";
-         for (Challenge temp : ChallengeList) {
-             s = s + temp.toString() + "\n";
-             
+        for (Challenge temp : challengeList) {
+            s = s + temp.toString() + "\n";
          }
          return s;
+        
     }
     
 
     //****************** private methods *******************
     //*******************************************************************************
-    private void setupChampions()
-    {
+    private void setupChampions(){
+        
+        //String name, int fee, int level, ChampionState state, boolean hasNecromancers, String spellSpeciality
+        Champion cha1 = new Wizard("Ganfrank", 400, 7, ChampionState.WAITING, true, "Trasmuation");
+        Champion cha2 = new Wizard("Rudolf", 400, 6,ChampionState.WAITING, true, "Invisibility");
+        Champion cha3 = new Warrior("Elblond", 150, 1, ChampionState.WAITING, "Sword");
+        
+        Champion cha4 = new Warrior("Flimsi", 200, 2, ChampionState.WAITING, "Bow");
+        Champion cha5 = new Dragon("Drabina", 500, 7,ChampionState.WAITING, false);
+        Champion cha6 = new Dragon("Golum", 500, 7, ChampionState.WAITING, true);
+        
+        Champion cha7 = new Warrior("Argon", 900, 9, ChampionState.WAITING, "Mace");
+        Champion cha8 = new Wizard("Neon", 300, 2, ChampionState.WAITING, false, "Traslocation");
+        Champion cha9 = new Dragon("Xenon", 500, 7, ChampionState.WAITING, true);
+     
     }
      
-    private void setupChallenges()
-    {
+    private void setupChallenges(){
+        
+        challengeList.add(new Challenge(1, ChallengeType.MAGIC, "Borg", 3, 120));
+        challengeList.add(new Challenge(2, ChallengeType.FIGHT, "Huns", 3, 120));
+        challengeList.add(new Challenge(3, ChallengeType.MYSTERY, "Ferengi", 3, 150));
+        challengeList.add(new Challenge(4, ChallengeType.MAGIC, "Vandal", 9, 200));
+        challengeList.add(new Challenge(5, ChallengeType.MYSTERY, "Borg", 7, 90));
+        challengeList.add(new Challenge(6, ChallengeType.FIGHT, "Goth", 8, 45));
+        challengeList.add(new Challenge(7, ChallengeType.MAGIC, "Frank", 10, 200));
+        challengeList.add(new Challenge(8, ChallengeType.FIGHT,"Sith", 10, 170));
+        challengeList.add(new Challenge(9, ChallengeType.MYSTERY, "Cardashian", 9, 300));
+        
+    
     }
         
    
@@ -249,7 +298,7 @@ public class Tournament implements TOC
 //      * and stores them 
 //      * @param fileName name of file storing challenges
 //      */
-//     private void loadChallenges(String fileName);
+//     private void readChallenges(String fileName);
     
 }
 
