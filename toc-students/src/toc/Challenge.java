@@ -12,20 +12,21 @@ package toc;
 public class Challenge {
     
     private int uniqueNumber;
-   // private String Type;
+    private ChallengeType type;
     private String Enemy;
     private int skillRequired;
     private int Reward;
     
-    public Challenge (int uniqueNumber, String Enemy, int skillRequired, int Reward ) {
+    public Challenge (int uniqueNumber, ChallengeType type, String Enemy, int skillRequired, int Reward ) {
         this.uniqueNumber = uniqueNumber;
+        this.type = type;
         this.Enemy = Enemy;
         this.skillRequired = skillRequired;
         this.Reward = Reward;
     }
     
     
-    public int getNumber (){
+    public int getChallengeNumber (){
         return uniqueNumber;
     }
     
@@ -33,7 +34,7 @@ public class Challenge {
         return Enemy;
     }
     
-    public int getSkill(){
+    public int getSkillLevel(){
         return skillRequired;
     }
     
@@ -44,6 +45,7 @@ public class Challenge {
     
     public String toString(){
         return "Unique Number: " + uniqueNumber + "\n" +
+                "Challenge Type: " + type + "\n" +
                 "Enemy: " + Enemy + "\n" +
                 "Skill Required: " + skillRequired + "\n" +
                 "Reward: " + Reward + "\n" +

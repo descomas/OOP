@@ -10,14 +10,14 @@ public class Dragon extends Champion{
     
     private boolean canTalk;
     
-    public Dragon(String name, int fee, int level, boolean talk){
-        super(name, fee, level);
+    public Dragon(String name, int fee, int level, ChampionState state, boolean talk){
+        super(name, fee, level, state);
         canTalk = talk;
         level = 7;
         fee = 500;
     }
     
-    public boolean CheckCanTalk(){
+    public boolean checkCanTalk(){
         return canTalk;
     }
     

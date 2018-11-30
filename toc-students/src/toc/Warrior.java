@@ -13,8 +13,8 @@ public class Warrior extends Champion{
     
     private String weapon;
     
-    public Warrior(String name, int fee, int level, String weapon){
-        super(name,fee,level);
+    public Warrior(String name, int fee, int level, ChampionState state, String weapon){
+        super(name,fee,level,state);
         this.weapon = weapon;
         super.setSkillLevel(fee/100);
     }
@@ -25,6 +25,15 @@ public class Warrior extends Champion{
     
     public void setWeapon(String newWeapon){
         weapon = newWeapon;
+    }
+    
+    // For fight Challenge Method
+    public boolean hasWeapon(){
+        if(weapon != null){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     public String toString(){

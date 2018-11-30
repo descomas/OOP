@@ -34,11 +34,12 @@ public class GameUI
                 }
                 else if (choice == 2)
                 {
-                    // code omitted
+                    System.out.println(tr.getTeam());
                 }
-                else if (choice == 3)
-                {
-                    // code omitted
+                else if (choice == 3){
+                    System.out.println("Enter Champion name");
+                    String championName = (myIn.nextLine()).trim();
+                    System.out.println(tr.getChampionDetails(championName)); 
                 } 
                 else if (choice == 4)
                 {   
