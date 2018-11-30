@@ -27,11 +27,11 @@ public class Champion {
         return uniqueName;
     }
     
-    public int entryFee(){
+    public int getEntryFee(){
         return entryFee;
     }
     
-    public int skillLevel(){
+    public int getSkillLevel(){
         return skillLevel;
     }
     
@@ -47,10 +47,19 @@ public class Champion {
         skillLevel = newLevel;
     }
     
+    public ChampionState getState(){
+        return state;
+    }
+    
+    public void setState(ChampionState newState){
+        state = newState;
+    }
+    
     public String toString(){
         return "Unique Name: " + uniqueName + "\n" +
                 "Entry Fee: " + entryFee + "\n" +
-                "Skill Level: " + skillLevel + "\n";
+                "Skill Level: " + skillLevel + "\n" +
+                "ChampionState: " + state + "\n";
     }
     
     

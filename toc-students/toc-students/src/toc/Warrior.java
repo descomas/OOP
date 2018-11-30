@@ -27,6 +27,15 @@ public class Warrior extends Champion{
         weapon = newWeapon;
     }
     
+    // For fight Challenge Method
+    public boolean hasWeapon(){
+        if(weapon != null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
     public String toString(){
         return super.toString() +
                 "Weapon: " + weapon + "\n" +

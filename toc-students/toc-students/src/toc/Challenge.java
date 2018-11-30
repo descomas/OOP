@@ -26,7 +26,7 @@ public class Challenge {
     }
     
     
-    public int getNumber (){
+    public int getChallengeNumber (){
         return uniqueNumber;
     }
     
@@ -34,7 +34,7 @@ public class Challenge {
         return Enemy;
     }
     
-    public int getSkill(){
+    public int getSkillLevel(){
         return skillRequired;
     }
     
@@ -45,6 +45,7 @@ public class Challenge {
     
     public String toString(){
         return "Unique Number: " + uniqueNumber + "\n" +
+                "Challenge Type: " + type + "\n" +
                 "Enemy: " + Enemy + "\n" +
                 "Skill Required: " + skillRequired + "\n" +
                 "Reward: " + Reward + "\n" +

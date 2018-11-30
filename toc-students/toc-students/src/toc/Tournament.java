@@ -29,10 +29,9 @@ public class Tournament implements TOC
         reserve = new ArrayList<Champion>();
         playerTeam = new ArrayList<Champion>();
         challengeList = new ArrayList<Challenge>();
-        //setupChampions();
+        setupChampions();
         setupChallenges();
-        
-    
+       
     }
     
     /** Constructor requires the name of the player and the
@@ -41,21 +40,8 @@ public class Tournament implements TOC
      * @param filename name of file storing challenges
      */  
     
-    // Testing purposes ---------------------------------
-    
-    public void addChampion(Champion newChampion){
-        reserve.add(newChampion);
-    }
-    
-    public void addChallenge(Challenge newChallenge){
-        challengeList.add(newChallenge);
-    }
-    
-    
-    //---------------------------------------------------
-    
-    
-    
+   
+     
     
     public Tournament(String pl, String filename)  //Task 3
     {
@@ -73,9 +59,18 @@ public class Tournament implements TOC
      **/
     public String toString()
     {
-       
+       String s = "";
+       if(playerTeam.size() == 0){
+            s = "No Champions";
+        }else{
+           s += getTeam() + "\n";
+       }
         return "Player Name: " + playerName + "\n" +
-                "Current Gulden" + gulden + "\n";
+                "Current Gulden: " + gulden + "\n" +
+                "Is Defeated?" + isDefeated() + "\n" +
+                "Champions in team:\n " + s;
+        
+                
     }
     
     
@@ -84,9 +79,22 @@ public class Tournament implements TOC
      * @return true if Treasury <=0 and the player's team has no champions 
      * which can be retired. 
      */
-    public boolean isDefeated()
-    {
-        return false;
+    public boolean isDefeated(){
+            boolean allDead = true;
+            
+            for(int i = 0; i < playerTeam.size(); i++){
+                
+            if(playerTeam.get(i).getState() == ChampionState.ACTIVE){
+                allDead = false;
+                }
+
+            }
+            if(gulden <= 0 && allDead == true)
+                return true;
+            else{
+                return false;
+            }           
+           
     }
     
     /** returns the amount of money in the Treasury
@@ -94,7 +102,7 @@ public class Tournament implements TOC
      */
     public int getMoney()
     {
-        return 0;
+        return gulden;
     }
     
     
@@ -104,10 +112,11 @@ public class Tournament implements TOC
     public String getReserve(){
         String s = "";
         for(Champion temp: reserve){
-            s += temp.toString();
+            s += temp.toString() + "\n";
         }
         return s;
     }
+    
     
     /** Returns details of champion in reserves with the given name
      * @return details of champion in reserves with the given name
@@ -121,22 +130,32 @@ public class Tournament implements TOC
 
     }
     
-    
     /** Returns details of any champion with the given name
      * @return details of any champion with the given name
      **/
-    public String getChampionDetails(String nme)
-    {
-        return "";
+    public String getChampionDetails(String nme){
+        for(Champion temp: playerTeam){
+            if(temp.getName().equalsIgnoreCase(nme))
+                return temp.toString();
+        }
+        return "Not found";
     }     
     
      /** Returns whether champion exists, or not
      * @param champion's name
      * @return true if champion in the game, false otherwise
      */
-    public boolean isChampion(String nme)
-    {
-        return false;
+    public boolean isChampion(String nme){
+        
+        for(int i = 0; i< playerTeam.size(); i++){
+            if(playerTeam.get(i).getName().equals(nme)){
+               if(playerTeam.get(i).getState() == ChampionState.DEAD)
+                   return false;
+            }
+        }
+        
+        return true;
+        
     }
  
     // ***************** Team champions ************************   
@@ -144,14 +163,32 @@ public class Tournament implements TOC
      * is enough money in the Treasury for the commission fee.The champion's 
      * state is set to "active"
      * @param nme represents the name of the champion
-     * @return 0 if champion is entered in the player's team, 1 if champion 
-     * is not in reserve, 2 if not enough money in the treasury, -1 if there
-     * is no such champion 
+     * @return 0 if champion is entered in the player's team,
+     * 1 if champion is not in reserve, 
+     * 2 if not enough money in the treasury, 
+     * -1 if there is no such champion 
      **/       
-    public int enterChampion(String nme)
-    {
-        return -1;
-    }
+    public int enterChampion(String nme){
+        for(Champion temp : reserve){
+                
+                if(temp.getName().equalsIgnoreCase(nme)){
+                      
+                        if(gulden >= temp.getEntryFee()){
+                        temp.setState(ChampionState.ACTIVE);
+                        gulden = gulden - temp.getEntryFee();
+                        playerTeam.add(temp);
+                        reserve.remove(temp);
+                        return 0; // Champion entered
+                        
+                        }else{
+                            return 2; // Not enough money
+                        }    
+                }
+            }
+                return 1; //Searched in Reserve and champion not found
+                //return -1
+            }
+            
         
     /** Returns true if the champion with the name is in 
      * the player's team, false otherwise.
@@ -161,6 +198,10 @@ public class Tournament implements TOC
      **/
     public boolean isInPlayersTeam(String nme)
     {
+        for(Champion temp: playerTeam){
+            if(temp.getName().equals(nme))
+                return true;
+            }
         return false;
     }
     
@@ -172,9 +213,22 @@ public class Tournament implements TOC
      * @param nme is the name of the champion
      * @return as shown above 
      **/
-    public int withdrawChampion(String nme)
-    {
-        return -1;
+    public int withdrawChampion(String nme){
+        if(isChampion(nme) == true){
+            
+            for(int i = 0; i< playerTeam.size(); i++){
+                if(playerTeam.get(i).getName().equals(nme)){
+                    reserve.add(playerTeam.get(i));   
+                    gulden += playerTeam.get(i).getEntryFee() / 2;
+                    playerTeam.remove(i);
+                    return 0;
+                    }
+                }
+        }else{
+            return 1;
+        }
+    
+        return 2;
     }
     
    
@@ -182,9 +236,12 @@ public class Tournament implements TOC
      * or the message "No champions entered"
      * @return a String representation of the champions in the player's team
      **/
-    public String getTeam()
-    {
-        return "";
+    public String getTeam(){
+        String s = "";
+        for(Champion temp: playerTeam){
+            s += temp.toString() + "\n";
+        }
+        return s;
     }
     
 //**********************Challenges************************* 
@@ -192,13 +249,16 @@ public class Tournament implements TOC
      * @param num is the referchale number of the challenge
      * @return true if the referchale number represents a challenge
      **/
-     public boolean isChallenge(int num)
-     {
+     public boolean isChallenge(int num){
+        for(Challenge temp : challengeList){
+            if(temp.getChallengeNumber() == num)
+                return true;
+        }
          return false;
      }
      
     /** Retrieves the challenge represented by the challenge 
-      * number.Finds a champion from the team which can challenge the 
+      * number. Finds a champion from the team which can challenge the 
       * challenge. The results of fighting an challenge will be 
       * one of the following:  
       * 0 - challenge won, add challenge reward to the treasury, 
@@ -214,8 +274,78 @@ public class Tournament implements TOC
       */  
     public int fightChallenge(int chalNo)
     {
+        for(Champion temp: playerTeam){
+            
+            if(temp.getEntryFee() == 300 || temp.getEntryFee() == 400){
+                return battleChampion(temp, chalNo);
+                }
+            else if (temp.getState() == ChampionState.ACTIVE){
+                return battleChampion(temp, chalNo);
+                }
+            else if(temp.getEntryFee() == 300 || temp.getEntryFee() == 400 || temp.getEntryFee() == 500){
+                 return battleChampion(temp, chalNo); 
+                 
+                }
+            
+            }
         return -1;
     }
+    
+             private int battleChampion(Champion temp, int challengeNo){
+                 if(temp.getSkillLevel() > challengeList.get(challengeNo).getSkillLevel()){
+                    gulden += challengeList.get(challengeNo).getReward();
+                    return 0;
+                } else if (temp.getSkillLevel() < challengeList.get(challengeNo).getSkillLevel()){
+                    gulden -= challengeList.get(challengeNo).getReward();
+                    temp.setState(ChampionState.DEAD);
+                    return 2;
+                } else if(gulden <= 0 && temp.getState() == ChampionState.DEAD){    
+                    return 3;
+                }else{
+                    gulden -= challengeList.get(challengeNo).getReward();
+                    return 1;
+                }
+             }
+             
+             private Champion getDragon(int index){
+                 ArrayList<Champion> dragonList = new ArrayList<Champion>();
+                 for(Champion temp: playerTeam){
+                     if(temp.getEntryFee() == 500){
+                         dragonList.add(temp);
+                     }
+                 }
+                 return playerTeam.get(index);
+             }
+             
+           
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+       
 
     /** Provides a String representation of an challenge given by 
      * the challenge number
@@ -223,10 +353,15 @@ public class Tournament implements TOC
      * @return returns a String representation of a challenge given by 
      * the challenge number
      **/
-    public String getChallenge(int num)
-    {
-        return "";
+    public String getChallenge(int num){
+        String s = "";
+        for(Challenge temp : challengeList){
+            if(temp.getChallengeNumber() == num)
+                s += temp.toString() + "\n";
+        }
+        return s;
     }
+    
     
     /** Provides a String representation of all challenges 
      * @return returns a String representation of all challenges
@@ -257,7 +392,23 @@ public class Tournament implements TOC
         Champion cha7 = new Warrior("Argon", 900, 9, ChampionState.WAITING, "Mace");
         Champion cha8 = new Wizard("Neon", 300, 2, ChampionState.WAITING, false, "Traslocation");
         Champion cha9 = new Dragon("Xenon", 500, 7, ChampionState.WAITING, true);
-     
+        
+        
+        reserve.add(cha1);
+        reserve.add(cha2);
+        reserve.add(cha3);
+        reserve.add(cha4);
+        reserve.add(cha5);
+        reserve.add(cha6);
+        reserve.add(cha7);
+        reserve.add(cha8);
+        reserve.add(cha9);
+        
+        // Testing
+//        playerTeam.add(new Warrior("Gare", 900, 9, ChampionState.ACTIVE, "Mace"));
+//        playerTeam.add(new Wizard("Neon", 300, 2, ChampionState.ACTIVE, false, "Traslocation"));
+//        playerTeam.add(new Dragon("Xenon", 500, 7, ChampionState.ACTIVE, true));
+//     
     }
      
     private void setupChallenges(){

@@ -17,7 +17,7 @@ public class Dragon extends Champion{
         fee = 500;
     }
     
-    public boolean CheckCanTalk(){
+    public boolean checkCanTalk(){
         return canTalk;
     }
     
