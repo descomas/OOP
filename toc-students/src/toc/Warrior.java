@@ -13,8 +13,8 @@ public class Warrior extends Champion{
     
     private String weapon;
     
-    public Warrior(String name, int fee, int level, ChampionState state, String weapon){
-        super(name,fee,level,state);
+    public Warrior(String name, int fee, int level, ChampionState state, ChampionType newType, String weapon){
+        super(name,fee,level,state,newType);
         this.weapon = weapon;
         super.setSkillLevel(fee/100);
     }

@@ -9,8 +9,8 @@ public class Wizard extends Champion {
     private boolean hasNecromancers;
     private String spellSpeciality;
     
-    public Wizard(String name, int fee, int level, ChampionState state, boolean hasNecromancers, String spellSpeciality){
-        super(name, fee, level, state);
+    public Wizard(String name, int fee, int level, ChampionState state, ChampionType newType, boolean hasNecromancers, String spellSpeciality){
+        super(name, fee, level, state, newType);
         
         this.hasNecromancers = hasNecromancers;
         this.spellSpeciality = spellSpeciality;

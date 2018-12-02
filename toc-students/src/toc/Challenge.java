@@ -34,12 +34,16 @@ public class Challenge {
         return Enemy;
     }
     
-    public int getSkillLevel(){
+    public int getRequiredSkillLevel(){
         return skillRequired;
     }
     
     public int getReward() {
         return Reward;
+    }
+    
+    public ChallengeType getType(){
+        return type;
     }
  
     

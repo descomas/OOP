@@ -58,10 +58,17 @@ public class Tester {
 
         //System.out.println(obj.isDefeated());
         
-        Warrior hey = new Warrior("Gare", 900, 9, ChampionState.DEAD, null);
-        System.out.println(hey.hasWeapon());
-        System.out.println(obj.getTeam());
-        System.out.println(obj.fightChallenge(3));
+//        Warrior hey = new Warrior("Gare", 900, 9, ChampionState.DEAD, null);
+//        System.out.println(hey.hasWeapon());
+//        System.out.println(obj.getTeam());
+//        System.out.println(obj.fightChallenge(3));
+
+// test remainingActiveChampions method
+        //System.out.println(obj.remainingIsActiveChampions());
+//        System.out.println(obj.fightChallenge(3));
+//        System.out.println(obj.getChallenge(3));
+//        System.out.println(obj.getTeam());
+
 
     }
     

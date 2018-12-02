@@ -15,12 +15,14 @@ public class Champion {
     private int entryFee;
     private int skillLevel;
     private ChampionState state;
+    private ChampionType type;
     
-    public Champion(String name, int fee, int level, ChampionState sState){
+    public Champion(String name, int fee, int level, ChampionState sState, ChampionType newType){
         uniqueName = name;
         entryFee = fee;
         skillLevel = level;
         state = sState;
+        type = newType;
     }
     
     public String getName(){
@@ -55,11 +57,21 @@ public class Champion {
         state = newState;
     }
     
+     public ChampionType getType(){
+        return type;
+    }
+    
+    public void setType(ChampionState newType){
+        state = newType;
+    }
+    
     public String toString(){
         return "Unique Name: " + uniqueName + "\n" +
                 "Entry Fee: " + entryFee + "\n" +
                 "Skill Level: " + skillLevel + "\n" +
-                "ChampionState: " + state + "\n";
+                "ChampionState: " + state + "\n" +
+                "ChampionType: " + type + "\n";
+                
     }
     
     

@@ -2,6 +2,8 @@ package toc;
 import java.util.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 /**
  * This class implements the behaviour expected from the WAM
  * system as required for 6COM1037 - Oct 2018
@@ -14,9 +16,10 @@ public class Tournament implements TOC
 {   
     private String playerName;
     private int gulden; //money 
-    ArrayList<Champion> reserve;
-    ArrayList<Champion> playerTeam;
-    ArrayList<Challenge> challengeList;
+    private ArrayList<Champion> reserve;
+    private ArrayList<Champion> playerTeam;
+    private ArrayList<Challenge> challengeList;
+    private String filename;
    
 
 //**************** TOC ************************** 
@@ -40,11 +43,9 @@ public class Tournament implements TOC
      * @param filename name of file storing challenges
      */  
     
-   
-     
-    
-    public Tournament(String pl, String filename)  //Task 3
-    {
+    public Tournament(String pl, String filename){  //Task 3
+    playerName = pl;
+    this.filename = filename;
     }
     
     
@@ -276,13 +277,13 @@ public class Tournament implements TOC
     {
         for(Champion temp: playerTeam){
             
-            if(temp.getEntryFee() == 300 || temp.getEntryFee() == 400){
+            if(temp.getType() == ChampionType.WIZARD){
                 return battleChampion(temp, chalNo);
                 }
             else if (temp.getState() == ChampionState.ACTIVE){
                 return battleChampion(temp, chalNo);
                 }
-            else if(temp.getEntryFee() == 300 || temp.getEntryFee() == 400 || temp.getEntryFee() == 500){
+            else if(temp.getType() == ChampionType.WIZARD || temp.getType() == ChampionType.DRAGON && ((Dragon)temp).checkCanTalk() == true){
                  return battleChampion(temp, chalNo); 
                  
                 }
@@ -292,14 +293,18 @@ public class Tournament implements TOC
     }
     
              private int battleChampion(Champion temp, int challengeNo){
-                 if(temp.getSkillLevel() > challengeList.get(challengeNo).getSkillLevel()){
+                
+                 int amountOfActiveChampions = remainingIsActiveChampions();
+                 
+                 
+                 if(temp.getSkillLevel() > challengeList.get(challengeNo).getRequiredSkillLevel()){
                     gulden += challengeList.get(challengeNo).getReward();
                     return 0;
-                } else if (temp.getSkillLevel() < challengeList.get(challengeNo).getSkillLevel()){
+                } else if (challengeList.get(challengeNo).getRequiredSkillLevel() < temp.getSkillLevel()){
                     gulden -= challengeList.get(challengeNo).getReward();
                     temp.setState(ChampionState.DEAD);
                     return 2;
-                } else if(gulden <= 0 && temp.getState() == ChampionState.DEAD){    
+                } else if(gulden <= 0 && temp.getSkillLevel() < challengeList.get(challengeNo).getRequiredSkillLevel() && amountOfActiveChampions == 0){    
                     return 3;
                 }else{
                     gulden -= challengeList.get(challengeNo).getReward();
@@ -307,46 +312,20 @@ public class Tournament implements TOC
                 }
              }
              
-             private Champion getDragon(int index){
-                 ArrayList<Champion> dragonList = new ArrayList<Champion>();
-                 for(Champion temp: playerTeam){
-                     if(temp.getEntryFee() == 500){
-                         dragonList.add(temp);
-                     }
-                 }
-                 return playerTeam.get(index);
-             }
-             
-           
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-       
 
+       private int remainingIsActiveChampions(){
+           int count = 0;
+           for(Champion temp: playerTeam){
+               if(temp.getState() == ChampionState.ACTIVE)
+                   count++;
+               
+           }
+           return count;
+       }      
+             
+             
+             
+             
     /** Provides a String representation of an challenge given by 
      * the challenge number
      * @param num the number of the challenge
@@ -381,17 +360,17 @@ public class Tournament implements TOC
     private void setupChampions(){
         
         //String name, int fee, int level, ChampionState state, boolean hasNecromancers, String spellSpeciality
-        Champion cha1 = new Wizard("Ganfrank", 400, 7, ChampionState.WAITING, true, "Trasmuation");
-        Champion cha2 = new Wizard("Rudolf", 400, 6,ChampionState.WAITING, true, "Invisibility");
-        Champion cha3 = new Warrior("Elblond", 150, 1, ChampionState.WAITING, "Sword");
+        Champion cha1 = new Wizard("Ganfrank", 400, 7, ChampionState.WAITING,ChampionType.WIZARD, true, "Trasmuation");
+        Champion cha2 = new Wizard("Rudolf", 400, 6,ChampionState.WAITING,ChampionType.WIZARD, true, "Invisibility");
+        Champion cha3 = new Warrior("Elblond", 150, 1, ChampionState.WAITING, ChampionType.WARRIOR, "Sword");
         
-        Champion cha4 = new Warrior("Flimsi", 200, 2, ChampionState.WAITING, "Bow");
-        Champion cha5 = new Dragon("Drabina", 500, 7,ChampionState.WAITING, false);
-        Champion cha6 = new Dragon("Golum", 500, 7, ChampionState.WAITING, true);
+        Champion cha4 = new Warrior("Flimsi", 200, 2, ChampionState.WAITING, ChampionType.WARRIOR, "Bow");
+        Champion cha5 = new Dragon("Drabina", 500, 7,ChampionState.WAITING, ChampionType.DRAGON, false);
+        Champion cha6 = new Dragon("Golum", 500, 7, ChampionState.WAITING, ChampionType.DRAGON, true);
         
-        Champion cha7 = new Warrior("Argon", 900, 9, ChampionState.WAITING, "Mace");
-        Champion cha8 = new Wizard("Neon", 300, 2, ChampionState.WAITING, false, "Traslocation");
-        Champion cha9 = new Dragon("Xenon", 500, 7, ChampionState.WAITING, true);
+        Champion cha7 = new Warrior("Argon", 900, 9, ChampionState.WAITING, ChampionType.WARRIOR, "Mace");
+        Champion cha8 = new Wizard("Neon", 300, 2, ChampionState.WAITING, ChampionType.WIZARD, false, "Traslocation");
+        Champion cha9 = new Dragon("Xenon", 500, 7, ChampionState.WAITING, ChampionType.DRAGON,true);
         
         
         reserve.add(cha1);
@@ -405,10 +384,10 @@ public class Tournament implements TOC
         reserve.add(cha9);
         
         // Testing
-//        playerTeam.add(new Warrior("Gare", 900, 9, ChampionState.ACTIVE, "Mace"));
-//        playerTeam.add(new Wizard("Neon", 300, 2, ChampionState.ACTIVE, false, "Traslocation"));
-//        playerTeam.add(new Dragon("Xenon", 500, 7, ChampionState.ACTIVE, true));
-//     
+//        playerTeam.add(new Warrior("Gare", 900, 9, ChampionState.DEAD, ChampionType.WIZARD, "Mace"));
+//        playerTeam.add(new Wizard("Neon", 300, 2, ChampionState.ACTIVE, ChampionType.WIZARD, false, "Traslocation"));
+//        playerTeam.add(new Dragon("Xenon", 500, 5, ChampionState.ACTIVE, ChampionType.DRAGON, true));
+     
     }
      
     private void setupChallenges(){
@@ -425,32 +404,44 @@ public class Tournament implements TOC
         
     
     }
-        
+    
+   
    
 //    // These methods are not needed until Task 4.4
 //    // ***************   file write/read  *********************
 //     /** Writes whole game to the specified file using serialisation
 //      * @param fname name of file to which game is saved
 //      */
-//     public void saveGame(String fname)
-//     {    // use serialisation
-//     
-//     /** reads all information about the game from the specified file 
-//      * and returns 
-//      * @param fname name of file storing the game
-//      * @return the game (as an Player object)
-//      */
+     public void saveGame(String fname){
+     try{
+         FileOutputStream fos = new FileOutputStream(fname);
+         ObjectOutputStream oos = new ObjectOutputStream(fos);
+         oos.writeObject(new Tournament(playerName));
+         
+     }
+       catch(Exception e) {
+           System.out.println(e);
+            }  
+     }
+
+      
+     
+     /** reads all information about the game from the specified file 
+      * and returns 
+      * @param fname name of file storing the game
+      * @return the game (as an Player object)
+      */
 //     public Tournament loadGame(String fname)
 //     {   // uses object serialisation 
 //         return null;
 //     } 
-//     
-//     /** reads information about challenges from the specified file
-//      * and stores them 
-//      * @param fileName name of file storing challenges
-//      */
+     
+     /** reads information about challenges from the specified file
+      * and stores them 
+      * @param fileName name of file storing challenges
+      */
 //     private void readChallenges(String fileName);
-    
+//    
 }
 
 
