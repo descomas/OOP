@@ -1,8 +1,6 @@
 package toc;
 import java.io.*;
 import java.util.*;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 /**
  * Task 2 - provide command line interface for testing
  * 
@@ -117,11 +115,11 @@ public class GameUI
                 {
                     System.out.println(tr.toString());
                 }
-                 else if (choice == 8) // Task 4.4 only
-                 {
-                     System.out.println("Write to file");
-                     tr.saveGame("olenka.txt");
-                 }
+//                 else if (choice == 8) // Task 4.4 only
+//                 {
+//                     System.out.println("Write to file");
+//                     tr.saveGame("olenka.txt");
+//                 }
 //                 else if (choice == 9) // Task 4.4 only
 //                 {
 //                     System.out.println("Restore from file");
@@ -145,7 +143,7 @@ public class GameUI
         System.out.println("5. Fight an challenge");
         System.out.println("6. Withdraw a champion");
         System.out.println("7. View game state");
-         System.out.println("8. Save this game");
+//         System.out.println("8. Save this game");
 //         System.out.println("9. Load this game");
        
         

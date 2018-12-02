@@ -2,8 +2,6 @@ package toc;
 import java.util.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 /**
  * This class implements the behaviour expected from the WAM
  * system as required for 6COM1037 - Oct 2018
@@ -16,10 +14,9 @@ public class Tournament implements TOC
 {   
     private String playerName;
     private int gulden; //money 
-    private ArrayList<Champion> reserve;
-    private ArrayList<Champion> playerTeam;
-    private ArrayList<Challenge> challengeList;
-    private String filename;
+    ArrayList<Champion> reserve;
+    ArrayList<Champion> playerTeam;
+    ArrayList<Challenge> challengeList;
    
 
 //**************** TOC ************************** 
@@ -43,9 +40,11 @@ public class Tournament implements TOC
      * @param filename name of file storing challenges
      */  
     
-    public Tournament(String pl, String filename){  //Task 3
-    playerName = pl;
-    this.filename = filename;
+   
+     
+    
+    public Tournament(String pl, String filename)  //Task 3
+    {
     }
     
     
@@ -386,7 +385,7 @@ public class Tournament implements TOC
         // Testing
 //        playerTeam.add(new Warrior("Gare", 900, 9, ChampionState.DEAD, ChampionType.WIZARD, "Mace"));
 //        playerTeam.add(new Wizard("Neon", 300, 2, ChampionState.ACTIVE, ChampionType.WIZARD, false, "Traslocation"));
-//        playerTeam.add(new Dragon("Xenon", 500, 5, ChampionState.ACTIVE, ChampionType.DRAGON, true));
+        playerTeam.add(new Dragon("Xenon", 500, 5, ChampionState.ACTIVE, ChampionType.DRAGON, true));
      
     }
      
@@ -404,44 +403,32 @@ public class Tournament implements TOC
         
     
     }
-    
-   
+        
    
 //    // These methods are not needed until Task 4.4
 //    // ***************   file write/read  *********************
 //     /** Writes whole game to the specified file using serialisation
 //      * @param fname name of file to which game is saved
 //      */
-     public void saveGame(String fname){
-     try{
-         FileOutputStream fos = new FileOutputStream(fname);
-         ObjectOutputStream oos = new ObjectOutputStream(fos);
-         oos.writeObject(new Tournament(playerName));
-         
-     }
-       catch(Exception e) {
-           System.out.println(e);
-            }  
-     }
-
-      
-     
-     /** reads all information about the game from the specified file 
-      * and returns 
-      * @param fname name of file storing the game
-      * @return the game (as an Player object)
-      */
+//     public void saveGame(String fname)
+//     {    // use serialisation
+//     
+//     /** reads all information about the game from the specified file 
+//      * and returns 
+//      * @param fname name of file storing the game
+//      * @return the game (as an Player object)
+//      */
 //     public Tournament loadGame(String fname)
 //     {   // uses object serialisation 
 //         return null;
 //     } 
-     
-     /** reads information about challenges from the specified file
-      * and stores them 
-      * @param fileName name of file storing challenges
-      */
+//     
+//     /** reads information about challenges from the specified file
+//      * and stores them 
+//      * @param fileName name of file storing challenges
+//      */
 //     private void readChallenges(String fileName);
-//    
+    
 }
 
 

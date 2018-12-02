@@ -65,10 +65,9 @@ public class Tester {
 
 // test remainingActiveChampions method
         //System.out.println(obj.remainingIsActiveChampions());
-//        System.out.println(obj.fightChallenge(3));
+        System.out.println(obj.fightChallenge(3));
 //        System.out.println(obj.getChallenge(3));
 //        System.out.println(obj.getTeam());
-
 
     }
     
